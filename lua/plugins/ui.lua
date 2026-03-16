@@ -15,40 +15,41 @@ return {
   },
   -- lualine.nvim —— 底部状态栏美化
   -- opts {
-    -- theme = "catppuccin"：状态栏颜色主题与 Catppuccin 配色一致。
-    -- always_divide_middle = false：不强制在中间分割状态栏，让布局更紧凑。
-    -- component_separators 和 section_separators：将组件之间的分隔符设为空，实现极简风格。
-    -- sections：定义活动窗口的底部状态栏从左到右的显示内容：
-    --   lualine_a：显示当前模式（普通、插入等）。
-    --   lualine_b：显示 Git 分支、diff 统计和 LSP 诊断信息。
-    --   lualine_c：显示文件名，并会在后面插入一个自定义的 Copilot 组件（见 config 部分）。
-    --   lualine_y：显示文件编码、格式、类型和文件进度百分比。
-    --   lualine_z：显示光标位置（行号:列号）。
-    --   lualine_x：原本为空，但在 config 中会插入宏录制状态组件。
-    -- winbar 和 inactive_winbar：窗口栏配置。活动窗口顶部显示文件名和 LSP 状态，非活动窗口顶部留空白（但仍显示一个分隔符，保证始终可见窗口栏）。
-    -- extensions：虽然没有显式写出，但 lualine 支持扩展（如 nvim-tree），这里未直接配置，但通过后续集成自动生效。
-    --}
-    -- config 函数中的自定义：
-    -- 获取 Catppuccin 调色板：local mocha = require("catppuccin.palettes").get_palette("mocha")，以便后续自定义颜色时使用主题色。
-    -- 宏录制显示组件 macro_recording:
-    --  定义函数 show_macro_recording：当录制宏时（vim.fn.reg_recording() 非空），返回 󰑋 图标加寄存器字母；否则返回空字符串。
-    --  将该函数包装为状态栏组件，背景色为 mocha.red（红色），左侧添加  斜角分隔符，右侧添加  斜角分隔符，无内边距。这样录制宏时会在状态栏醒目提示。
-    -- Copilot 状态组件 copilot：
-    --  使用 copilot-lualine 插件提供的组件，显示 Copilot 连接状态（启用、睡眠、禁用、未知）。
-    --  配置了不同状态的颜色（取自主题调色板），例如启用时为绿色（mocha.green），并指定了旋转加载图标的颜色（mocha.mauve）。
-    -- 将组件插入状态栏：
-    --  table.insert(opts.sections.lualine_x, 1, macro_recording)：将宏录制组件插入 lualine_x 的最左侧。
-    --  table.insert(opts.sections.lualine_c, copilot)：将 Copilot 组件追加到 lualine_c（文件名后面）。
-    -- 最后调用 require("lualine").setup(opts) 应用配置。
+  -- theme = "catppuccin"：状态栏颜色主题与 Catppuccin 配色一致。
+  -- always_divide_middle = false：不强制在中间分割状态栏，让布局更紧凑。
+  -- component_separators 和 section_separators：将组件之间的分隔符设为空，实现极简风格。
+  -- sections：定义活动窗口的底部状态栏从左到右的显示内容：
+  --   lualine_a：显示当前模式（普通、插入等）。
+  --   lualine_b：显示 Git 分支、diff 统计和 LSP 诊断信息。
+  --   lualine_c：显示文件名，并会在后面插入一个自定义的 Copilot 组件（见 config 部分）。
+  --   lualine_y：显示文件编码、格式、类型和文件进度百分比。
+  --   lualine_z：显示光标位置（行号:列号）。
+  --   lualine_x：原本为空，但在 config 中会插入宏录制状态组件。
+  -- winbar 和 inactive_winbar：窗口栏配置。活动窗口顶部显示文件名和 LSP 状态，非活动窗口顶部留空白（但仍显示一个分隔符，保证始终可见窗口栏）。
+  -- extensions：虽然没有显式写出，但 lualine 支持扩展（如 nvim-tree），这里未直接配置，但通过后续集成自动生效。
+  --}
+  -- config 函数中的自定义：
+  -- 获取 Catppuccin 调色板：local mocha = require("catppuccin.palettes").get_palette("mocha")，以便后续自定义颜色时使用主题色。
+  -- 宏录制显示组件 macro_recording:
+  --  定义函数 show_macro_recording：当录制宏时（vim.fn.reg_recording() 非空），返回 󰑋 图标加寄存器字母；否则返回空字符串。
+  --  将该函数包装为状态栏组件，背景色为 mocha.red（红色），左侧添加  斜角分隔符，右侧添加  斜角分隔符，无内边距。这样录制宏时会在状态栏醒目提示。
+  -- Copilot 状态组件 copilot：
+  --  使用 copilot-lualine 插件提供的组件，显示 Copilot 连接状态（启用、睡眠、禁用、未知）。
+  --  配置了不同状态的颜色（取自主题调色板），例如启用时为绿色（mocha.green），并指定了旋转加载图标的颜色（mocha.mauve）。
+  -- 将组件插入状态栏：
+  --  table.insert(opts.sections.lualine_x, 1, macro_recording)：将宏录制组件插入 lualine_x 的最左侧。
+  --  table.insert(opts.sections.lualine_c, copilot)：将 Copilot 组件追加到 lualine_c（文件名后面）。
+  -- 最后调用 require("lualine").setup(opts) 应用配置。
   {
     'nvim-lualine/lualine.nvim',
     dependencies = {
-       'nvim-tree/nvim-web-devicons',
-       "AndreM222/copilot-lualine" ,
+      'nvim-tree/nvim-web-devicons',
+      "AndreM222/copilot-lualine",
     },
     opts = {
       options = {
-        theme = "catppuccin",
+        theme = "auto", -- 自动跟随 nvim 主题
+        globalstatus = true,
         always_divide_middle = false,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
@@ -66,7 +67,7 @@ return {
           "filename"
         },
         lualine_b = {
-          { function() return " " end, color = 'Comment'},
+          { function() return " " end, color = 'Comment' },
         },
         lualine_x = {
           "lsp_status"
@@ -135,19 +136,19 @@ return {
     init = function() vim.g.barbar_auto_setup = false end,
     event = { "VeryLazy" },
     keys = {
-      { "<A-<>", "<CMD>BufferMovePrevious<CR>", mode = {"n"}, desc = "[Buffer] Move buffer left"  },
-      { "<A->>", "<CMD>BufferMoveNext<CR>",     mode = {"n"}, desc = "[Buffer] Move buffer right" },
-      { "<A-1>", "<CMD>BufferGoto 1<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 1"    },
-      { "<A-2>", "<CMD>BufferGoto 2<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 2"    },
-      { "<A-3>", "<CMD>BufferGoto 3<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 3"    },
-      { "<A-4>", "<CMD>BufferGoto 4<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 4"    },
-      { "<A-5>", "<CMD>BufferGoto 5<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 5"    },
-      { "<A-6>", "<CMD>BufferGoto 6<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 6"    },
-      { "<A-7>", "<CMD>BufferGoto 7<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 7"    },
-      { "<A-8>", "<CMD>BufferGoto 8<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 8"    },
-      { "<A-9>", "<CMD>BufferGoto 9<CR>",       mode = {"n"}, desc = "[Buffer] Go to buffer 9"    },
-      { "<A-h>", "<CMD>BufferPrevious<CR>",     mode = {"n"}, desc = "[Buffer] Previous buffer"   },
-      { "<A-l>", "<CMD>BufferNext<CR>",         mode = {"n"}, desc = "[Buffer] Next buffer"       },
+      { "<A-<>", "<CMD>BufferMovePrevious<CR>", mode = { "n" }, desc = "[Buffer] Move buffer left" },
+      { "<A->>", "<CMD>BufferMoveNext<CR>",     mode = { "n" }, desc = "[Buffer] Move buffer right" },
+      { "<A-1>", "<CMD>BufferGoto 1<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 1" },
+      { "<A-2>", "<CMD>BufferGoto 2<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 2" },
+      { "<A-3>", "<CMD>BufferGoto 3<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 3" },
+      { "<A-4>", "<CMD>BufferGoto 4<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 4" },
+      { "<A-5>", "<CMD>BufferGoto 5<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 5" },
+      { "<A-6>", "<CMD>BufferGoto 6<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 6" },
+      { "<A-7>", "<CMD>BufferGoto 7<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 7" },
+      { "<A-8>", "<CMD>BufferGoto 8<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 8" },
+      { "<A-9>", "<CMD>BufferGoto 9<CR>",       mode = { "n" }, desc = "[Buffer] Go to buffer 9" },
+      { "<A-h>", "<CMD>BufferPrevious<CR>",     mode = { "n" }, desc = "[Buffer] Previous buffer" },
+      { "<A-l>", "<CMD>BufferNext<CR>",         mode = { "n" }, desc = "[Buffer] Next buffer" },
     },
     opts = {
       animation = false,
@@ -172,7 +173,7 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     keys = {
-      { "<leader>e", "<CMD>NvimTreeToggle<CR>", mode = {"n"}, desc = "[NvimTree] Toggle NvimTree" },
+      { "<leader>e", "<CMD>NvimTreeToggle<CR>", mode = { "n" }, desc = "[NvimTree] Toggle NvimTree" },
     },
     opts = {}
   },
@@ -202,7 +203,7 @@ return {
     },
     keys = {
       { "<leader>sN", "<CMD>Noice pick<CR>", desc = "[Noice] Pick history messages" }, -- FIXME: Currently unusable
-      { "<leader>N", "<CMD>Noice<CR>", desc = "[Noice] Show history messages" },
+      { "<leader>N",  "<CMD>Noice<CR>",      desc = "[Noice] Show history messages" },
     },
 
     opts = {
@@ -221,17 +222,17 @@ return {
       },
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = false, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
+        bottom_search = false,        -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true, -- add a border to hover docs and signature help
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true,        -- add a border to hover docs and signature help
       },
       routes = {
         -- Hide search count
         { filter = { event = "msg_show", kind = "search_count", }, opts = { skip = true }, },
         -- Hide written message
-        { filter = { event = "msg_show", kind = "", }, opts = { skip = true }, },
+        { filter = { event = "msg_show", kind = "", },             opts = { skip = true }, },
       },
     }
   },
@@ -242,6 +243,198 @@ return {
     event = "VeryLazy",
     version = "*",
     opts = {},
+  },
+
+  -- mini.diff - 显示当前内容与git仓库进行对比显示状态
+  -- keys:
+  --  <leader>to
+  {
+    "echasnovski/mini.diff",
+    event = "BufReadPost",
+    version = "*",
+    -- stylua: ignore
+    keys = {
+      { "<leader>to", function() require("mini.diff").toggle_overlay(vim.api.nvim_get_current_buf()) end, mode = "n", desc = "[Mini.Diff] Toggle diff overlay", },
+    },
+    opts = {
+      -- Module mappings. Use `''` (empty string) to disable one.
+      -- NOTE: Mappings are handled by gitsigns.
+      mappings = {
+        -- Apply hunks inside a visual/operator region
+        apply = "",
+        -- Reset hunks inside a visual/operator region
+        reset = "",
+        -- Hunk range textobject to be used inside operator
+        -- Works also in Visual mode if mapping differs from apply and reset
+        textobject = "",
+        -- Go to hunk range in corresponding direction
+        goto_first = "",
+        goto_prev = "",
+        goto_next = "",
+        goto_last = "",
+      },
+    },
+  },
+
+  -- nvim-colorizer - 颜色字符串高亮
+  -- function: 直接显示当前颜色块 #143C32
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function(_, _)
+      require("colorizer").setup()
+    end,
+  },
+
+  -- showkeys - 显示按键
+  -- function: 显示当前按键输入的字符
+  -- keys:
+  --  input cmd: [:ShowkeysToggle]
+  {
+    "nvzone/showkeys",
+    cmd = "ShowkeysToggle",
+    opts = {
+      maxkeys = 5,
+    },
+  },
+
+  -- TODO:configrure later when having an LSP with code actions
+  -- tiny-code-action - 代码可替换参考 code action可视化
+  {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      {
+        "folke/snacks.nvim",
+        opts = {
+          terminal = {},
+        },
+      },
+    },
+    event = "LspAttach",
+    opts = {},
+  },
+
+  -- nvim-ufo - 代码折叠
+  -- 将某一大块的代码区域进行折叠
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    opts = {
+      provider_selector = function(_, _, _)
+        return { "treesitter", "indent" }
+      end,
+
+      open_fold_hl_timeout = 0,
+      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = (" 󰁂 %d "):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, { suffix, "MoreMsg" })
+        return newVirtText
+      end,
+    },
+
+    init = function()
+      vim.o.foldenable = true
+      vim.o.foldcolumn = "0" -- '0' is not bad
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.opt.fillchars = {
+        fold = " ",
+        foldopen = "▾",
+        foldsep = "│",
+        foldclose = "▸",
+      }
+    end,
+
+    config = function(_, opts)
+      require("ufo").setup(opts)
+      -- Ensure our ufo foldlevel is set for the buffer
+      vim.api.nvim_create_autocmd("BufReadPre", {
+        callback = function()
+          vim.b.ufo_foldlevel = 0
+        end,
+      })
+
+      ---@param num integer Set the fold level to this number
+      local set_buf_foldlevel = function(num)
+        vim.b.ufo_foldlevel = num
+        require("ufo").closeFoldsWith(num)
+      end
+
+      ---@param num integer The amount to change the UFO fold level by
+      local change_buf_foldlevel_by = function(num)
+        local foldlevel = vim.b.ufo_foldlevel or 0
+        -- Ensure the foldlevel can't be set negatively
+        if foldlevel + num >= 0 then
+          foldlevel = foldlevel + num
+        else
+          foldlevel = 0
+        end
+        set_buf_foldlevel(foldlevel)
+      end
+
+      -- Keymaps
+      vim.keymap.set("n", "K", function()
+        local winid = require("ufo").peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
+      end)
+
+      -- stylua: ignore
+      vim.keymap.set("n", "zM", function() set_buf_foldlevel(0) end, { desc = "[UFO] Close all folds" })
+      vim.keymap.set("n", "zR", require("ufo").openAllFolds, { desc = "[UFO] Open all folds" })
+
+      vim.keymap.set("n", "zm", function()
+        local count = vim.v.count
+        if count == 0 then
+          count = 1
+        end
+        change_buf_foldlevel_by(-count)
+      end, { desc = "[UFO] Fold More" })
+      vim.keymap.set("n", "zr", function()
+        local count = vim.v.count
+        if count == 0 then
+          count = 1
+        end
+        change_buf_foldlevel_by(count)
+      end, { desc = "[UFO] Fold Less" })
+
+      -- 99% sure `zS` isn't mapped by default
+      vim.keymap.set("n", "zS", function()
+        if vim.v.count == 0 then
+          vim.notify("No foldlevel given to set!", vim.log.levels.WARN)
+        else
+          set_buf_foldlevel(vim.v.count)
+        end
+      end, { desc = "[UFO] Set foldlevel" })
+
+      -- Delete some predefined keymaps as they are not compatible with nvim-ufo
+      vim.keymap.set("n", "zE", "<NOP>", { desc = "Disabled" })
+      vim.keymap.set("n", "zx", "<NOP>", { desc = "Disabled" })
+      vim.keymap.set("n", "zX", "<NOP>", { desc = "Disabled" })
+    end,
   },
 
   -- which-key - 按键提示
@@ -263,8 +456,8 @@ return {
       -- stylua: ignore
       spec = {
         { "<leader>cc", group = "<CodeCompanion>", icon = "" },
-        { "<leader>s",  group = "<Snacks>"                    },
-        { "<leader>t",  group = "<Snacks> Toggle"             },
+        { "<leader>s", group = "<Snacks>" },
+        { "<leader>t", group = "<Snacks> Toggle" },
       },
       -- expand all nodes wighout a description
       expand = function(node)
@@ -277,4 +470,46 @@ return {
     },
   },
 
+
+  -- nvim-scrollbar - 滚动条
+  -- function: 右侧滚动条显示当前在整个页面位置
+  {
+    "petertriho/nvim-scrollbar",
+    opts = {
+      handelers = {
+        gitsigns = true, -- Requires gitsigns
+        search = true,   -- Requires hlslens
+      },
+      marks = {
+        Search = {
+          color = "#CBA6F7",
+        },
+        GitAdd = { text = "┃" },
+        GitChange = { text = "┃" },
+        GitDelete = { text = "_" },
+      },
+    },
+  },
+  -- yazi.nvim - 集成yazi终端文件管理器
+  -- keys:
+  --  <leader>E  使用yazi打开当前目录
+  {
+    "mikavilpas/yazi.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    -- stylua: ignore
+    keys = {
+      { "<leader>E",  "<CMD>Yazi<CR>",        desc = "[Yazi] open at the current file", mode = { "n", "v" } },
+      { "<leader>cw", "<CMD>Yazi cwd<CR>",    desc = "[Yazi] open in working directory" },
+      { "<c-up>",     "<CMD>Yazi toggle<CR>", desc = "[Yazi] Resume the last session" },
+    },
+    opts = {
+      open_for_directories = false,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+    init = function()
+      vim.g.loaded_netrwPlugin = 1
+    end,
+  },
 }

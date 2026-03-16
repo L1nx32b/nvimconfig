@@ -17,7 +17,7 @@ return {
   {
     "mbbill/undotree",
     keys = {
-	  -- 空格 + ut 可以打开历史修改记录树，切换修改状态
+      -- 空格 + ut 可以打开历史修改记录树，切换修改状态
       { "<leader>ut", "<cmd>UndotreeToggle<cr>", desc = "Toggle undo-tree" },
     },
     init = function()
@@ -37,17 +37,21 @@ return {
     end,
   },
 
+  -- Comment.nvim - 快速注释插件
+  -- keys:
+  --  <leader>/ : 快速注释当前行
+  --  <ctrl> + / : 在tmux 模式下快速注释
   {
     "numToStr/Comment.nvim",
     -- stylua: ignore
     keys = {
-	  -- 空格 + / 进行快速注释
+      -- 空格 + / 进行快速注释
       { "<leader>/", function() require("Comment.api").toggle.linewise.current() end,                 mode = "n", desc = "[Comment] Comment current line", },
-      { "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", mode = "v", desc = "Comment current line",           },
+      { "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", mode = "v", desc = "Comment current line", },
       -- control + / keymappings
-	  -- tmux 情况下 ctrl + / 注释
+      -- tmux 情况下 ctrl + / 注释
       { "<C-_>",     function() require("Comment.api").toggle.linewise.current() end,                 mode = "n", desc = "[Comment] Comment current line", },
-      { "<C-_>",     "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", mode = "v", desc = "Comment current line",           },
+      { "<C-_>",     "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", mode = "v", desc = "Comment current line", },
     },
     config = true,
   },
@@ -86,16 +90,16 @@ return {
     },
     keys = {
       -- stylua: ignore
-	  -- 空格 + f 进入跳转模式
-      { "<leader>f", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "[Flash] Jump"              },
+      -- 空格 + f 进入跳转模式
+      { "<leader>f", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "[Flash] Jump" },
       -- stylua: ignore
-	  -- 空格 + f 进入treesitter跳转模式
-      { "<leader>F", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "[Flash] Treesitter"        },
+      -- 空格 + f 进入treesitter跳转模式
+      { "<leader>F", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "[Flash] Treesitter" },
       -- stylua: ignore
       { "<leader>F", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "[Flash] Treesitter Search" },
       -- stylua: ignore
-	  -- ctrl + f 取消该模式
-      { "<c-f>",     mode = { "c" },           function() require("flash").toggle() end,            desc = "[Flash] Toggle Search"     },
+      -- ctrl + f 取消该模式
+      { "<c-f>",     mode = { "c" },           function() require("flash").toggle() end,            desc = "[Flash] Toggle Search" },
       {
         "<leader>j",
         mode = { "n", "x", "o" },
@@ -135,11 +139,11 @@ return {
     -- stylua: ignore
     keys = {
       ---@diagnostic disable-next-line: undefined-field
-	  -- 空格 + st显示当前项目的TODO和FIX等内容
-      { "<leader>st", function() require("snacks").picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME", "BUG", "FIXIT", "HACK", "WARN", "ISSUE"  } }) end, desc = "[TODO] Pick todos (without NOTE)", },
+      -- 空格 + st显示当前项目的TODO和FIX等内容
+      { "<leader>st", function() require("snacks").picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME", "BUG", "FIXIT", "HACK", "WARN", "ISSUE" } }) end,  desc = "[TODO] Pick todos (without NOTE)", },
       ---@diagnostic disable-next-line: undefined-field
-	  -- 空格 + st显示当前项目的TODO和FIX等内容并且包含NOTE内容
-      { "<leader>sT", function() require("snacks").picker.todo_comments() end, desc = "[TODO] Pick todos (with NOTE)", },
+      -- 空格 + st显示当前项目的TODO和FIX等内容并且包含NOTE内容
+      { "<leader>sT", function() require("snacks").picker.todo_comments() end,                                                                                    desc = "[TODO] Pick todos (with NOTE)", },
     },
     config = true,
   },
@@ -151,7 +155,7 @@ return {
     config = true,
     keys = {
       -- Disable the vanilla `s` keybinding
-	  -- s + (d(delete) | r(replace) | a(add)) + 括号或引号 将引号修改为其他内容或删除
+      -- s + (d(delete) | r(replace) | a(add)) + 括号或引号 将引号修改为其他内容或删除
       { "s", "<NOP>", mode = { "n", "x", "o" } },
     },
   },
@@ -170,8 +174,8 @@ return {
     event = "BufReadPost",
     keys = {
       -- Append/insert for each line of visual selections. Similar to block selection insertion.
-      {"mI", function() require("multicursor-nvim").insertVisual() end, mode = "x", desc = "Insert cursors at visual selection"},
-      {"mA", function() require("multicursor-nvim").appendVisual() end, mode = "x", desc = "Append cursors at visual selection"},
+      { "mI", function() require("multicursor-nvim").insertVisual() end, mode = "x", desc = "Insert cursors at visual selection" },
+      { "mA", function() require("multicursor-nvim").appendVisual() end, mode = "x", desc = "Append cursors at visual selection" },
     },
     config = function()
       local mc = require("multicursor-nvim")
@@ -184,9 +188,8 @@ return {
           mc.clearCursors()
         end)
       end)
-
     end,
   },
-
-  { "wakatime/vim-wakatime", lazy = false },
+  -- 用于统计代码时间 需要配置API KEY
+  -- { "wakatime/vim-wakatime", lazy = false },
 }
