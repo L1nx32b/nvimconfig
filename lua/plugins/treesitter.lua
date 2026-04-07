@@ -16,7 +16,7 @@ return {
         sync_install = false,
         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html", "cpp", "java", "go", "markdown", "markdown_inline", "vue", "css" },
         highlight = { enable = true },
-        indent = { enable = true },
+        indent = { enable = true }, -- 开启treesitter缩进
       })
     end,
   },

@@ -17,10 +17,10 @@ vim.opt.conceallevel = 2
 vim.wo.wrap = false
 
 -- Tab related options
-vim.opt.softtabstop = 2  -- 按 Tab 键时插入的空格数
-vim.opt.shiftwidth = 2   -- 自动缩进和缩进操作（>>、<<）的空格数
-vim.opt.expandtab = true -- 将 Tab 键自动转换为空格，保证跨平台一致性
-vim.opt.smartindent = true
+vim.opt_local.indentexpr = "" -- 关闭内置的缩进表达式
+vim.opt.softtabstop = 2       -- 按 Tab 键时插入的空格数
+vim.opt.shiftwidth = 2        -- 自动缩进和缩进操作（>>、<<）的空格数
+vim.opt.expandtab = true      -- 将 Tab 键自动转换为空格，保证跨平台一致性
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
